@@ -11,8 +11,20 @@
               xmlns:Controls="clr-namespace:Elysium.Controls;assembly=Elysium"
               WindowStartupLocation="CenterScreen"
               Background="{DynamicResource BackgroundBrush}">
+    <Controls:Window.ApplicationBar>
+        <Controls:ApplicationBar>
+            <TextBlock Text="Settings" FontSize="20" />
+        </Controls:ApplicationBar>
+    </Controls:Window.ApplicationBar>
     <Grid>
-        <TabControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="100"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="People" Grid.Column="0" Margin="5" FontSize="20"/>
+        <GridSplitter Background="Chocolate" Grid.Column="1" Width="3" />
+        <TabControl Grid.Column="2">
             <TabItem Header="Chat">
                 <Grid>
                     <views:ChatView DataContext="{Binding ChatViewModel}" />

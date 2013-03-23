@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Monads;
 using System.Collections.Immutable;
+using System.Reactive;
 
 namespace Omerta.ViewModels
 {
@@ -42,10 +43,15 @@ namespace Omerta.ViewModels
 
         public ChatViewModel(string channelName, IChat chat)
         {
+            var openTask = chat.Open();
+            var ticket = openTask;
+
             this.SendMessage = new ReactiveAsyncCommand(null, 1 /*at a time*/);
             this.SendMessage.RegisterAsyncFunction(commandParam =>
                 {
-                    return chat.SendMessage(channelName, commandParam.ToString());
+                    var newTicket = SendMessageAsync(chat, openTask, channelName, commandParam as string).Unwrap();
+                    ticket = newTicket;
+                    return newTicket;
                 })
                 .Subscribe(_ =>
                 {
@@ -77,5 +83,11 @@ namespace Omerta.ViewModels
                     this.RaisePropertyChanged(viewModel => viewModel.Messages);
                 });
          }
+
+        private async Task<Task> SendMessageAsync(IChat chat, Task ticket, string channelName, string message)
+        {
+            await ticket;
+            return chat.SendMessage(channelName, message);
+        }
     }
 }

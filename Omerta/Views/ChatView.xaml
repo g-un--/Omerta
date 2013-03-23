@@ -6,15 +6,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.InputBindings>
-        <KeyBinding Key="Enter" Command="{Binding SendMessage}" CommandParameter="{Binding Path=TextMessage}"/>
+        <KeyBinding Key="Enter" Modifiers="Control" Command="{Binding SendMessage}" CommandParameter="{Binding Path=TextMessage}"/>
     </UserControl.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="5*" />
+            <RowDefinition Height="9*" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="textChat" Text="{Binding TextMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Margin="5" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="textChat" 
+                 Text="{Binding TextMessage, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="0" 
+                 Margin="5" 
+                 Width="Auto" 
+                 Height="Auto"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 FontSize="15"/>
         <ListBox ItemsSource="{Binding Messages}" Grid.Row="1" Margin="10">
             <ListBox.ItemTemplate>
                 <DataTemplate >

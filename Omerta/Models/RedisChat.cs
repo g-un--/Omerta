@@ -1,4 +1,5 @@
-﻿using BookSleeve;
+﻿using Autofac;
+using BookSleeve;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,16 @@ namespace Omerta.Models
 {
     class RedisChat : IChat, IDisposable
     {
-        private RedisConnection connection;
+        private IOmertaConnection connection;
 
-        public RedisChat()
+        public RedisChat(IOmertaConnection connection)
         {
-            connection = new RedisConnection("localhost");
-            connection.Open();
+            this.connection = connection;
+        }
+
+        public Task Open()
+        {
+            return connection.Open();
         }
 
         public Task SendMessage(string channel, string message)

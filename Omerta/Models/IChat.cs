@@ -8,6 +8,7 @@ namespace Omerta.Models
 {
     public interface IChat
     {
+        Task Open();
         Task SendMessage(string channelName, string message);
         IObservable<string> ReceiveMessages(string channelName); 
     }
