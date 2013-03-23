@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Omerta.Models
 {
-    class RedisChat : IChat, IDisposable
+    class OmertaChat : IChat, IDisposable
     {
         private IOmertaConnection connection;
 
-        public RedisChat(IOmertaConnection connection)
+        public OmertaChat(IOmertaConnection connection)
         {
             this.connection = connection;
         }

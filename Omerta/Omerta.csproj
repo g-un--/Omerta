@@ -133,7 +133,7 @@
       <DependentUpon>ChatView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\IChat.cs" />
-    <Compile Include="Models\RedisChat.cs" />
+    <Compile Include="Models\OmertaChat.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

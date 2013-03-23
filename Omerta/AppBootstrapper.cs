@@ -81,9 +81,9 @@ namespace Omerta
                 });
 
             builder
-                .Register<RedisChat>((context, parameters) =>
+                .Register<OmertaChat>((context, parameters) =>
                  {
-                     return new RedisChat(
+                     return new OmertaChat(
                          context.Resolve<IOmertaConnection>(parameters));
                  })
                 .As<IChat>();
