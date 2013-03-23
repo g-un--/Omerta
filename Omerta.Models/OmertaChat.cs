@@ -1,5 +1,4 @@
-﻿using Autofac;
-using BookSleeve;
+﻿using BookSleeve;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Omerta.Models
 {
-    class OmertaChat : IChat, IDisposable
+    public class OmertaChat : IChat
     {
-        private IOmertaConnection connection;
+        private IOmertaChatConnection connection;
 
-        public OmertaChat(IOmertaConnection connection)
+        public OmertaChat(IOmertaChatConnection connection)
         {
             this.connection = connection;
         }

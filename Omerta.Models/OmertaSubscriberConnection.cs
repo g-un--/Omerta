@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Omerta.Models
 {
-    class OmertaSubscriberConnection : IOmertaSubscriberConnection
+    public class OmertaSubscriberConnection : IOmertaSubscriberConnection
     {
         private dynamic subscriberConnection;
 

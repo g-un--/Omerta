@@ -38,6 +38,10 @@
     <Reference Include="BookSleeve">
       <HintPath>..\packages\BookSleeve.1.2.0.8\lib\BookSleeve.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -53,6 +57,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="OmertaSubscriberConnectionTests.cs" />
     <Compile Include="RedisTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,6 +65,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Omerta.Models\Omerta.Models.csproj">
+      <Project>{ec9371c3-ae72-435e-a709-641fff5ad6a1}</Project>
+      <Name>Omerta.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omerta\Omerta.csproj">
       <Project>{251a8bca-70f4-45a5-bbd2-1fd60f4be2ab}</Project>
       <Name>Omerta</Name>

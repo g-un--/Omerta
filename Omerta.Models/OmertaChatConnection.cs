@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Omerta.Models
 {
-    class OmertaChatConnection : IOmertaConnection
+    public class OmertaChatConnection : IOmertaChatConnection
     {
         private dynamic connection;
 

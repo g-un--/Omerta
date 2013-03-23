@@ -11,14 +11,19 @@ using System.Threading.Tasks;
 using Monads;
 using System.Collections.Immutable;
 using System.Reactive;
+using Caliburn.Micro;
 
 namespace Omerta.ViewModels
 {
-    public class ChatViewModel : ReactiveObject
+    public class ChatViewModel : Screen, IReactiveNotifyPropertyChanged
     {
+        private readonly MakeObjectReactiveHelper reactiveHelper;
+        private readonly ObservableAsPropertyHelper<IList<string>> messages;
+        private readonly IChat chat;
+        private string textMessage;
+
         public ReactiveAsyncCommand SendMessage { get; private set; }
 
-        private string textMessage;
         public string TextMessage
         {
             get 
@@ -31,11 +36,11 @@ namespace Omerta.ViewModels
             set
             {
                 textMessage = value;
-                this.RaisePropertyChanged<ChatViewModel>("TextMessage");
+                this.NotifyOfPropertyChange(() => this.TextMessage);
             }
         }
 
-        ObservableAsPropertyHelper<IList<string>> messages;
+        
         public IList<string> Messages
         {
             get { return messages.Value; }
@@ -43,6 +48,8 @@ namespace Omerta.ViewModels
 
         public ChatViewModel(string channelName, IChat chat)
         {
+            reactiveHelper = new MakeObjectReactiveHelper(this);
+
             var openTask = chat.Open();
             var ticket = openTask;
 
@@ -80,7 +87,7 @@ namespace Omerta.ViewModels
                 receivedMessages,
                 _ =>
                 {
-                    this.RaisePropertyChanged(viewModel => viewModel.Messages);
+                    this.NotifyOfPropertyChange(() => this.Messages);
                 });
          }
 
@@ -89,5 +96,30 @@ namespace Omerta.ViewModels
             await ticket;
             return chat.SendMessage(channelName, message);
         }
+
+        public IObservable<IObservedChange<object, object>> Changed
+        {
+            get { return reactiveHelper.Changed; }
+        }
+
+        public IObservable<IObservedChange<object, object>> Changing
+        {
+            get { return reactiveHelper.Changing; }
+        }
+
+        public IDisposable SuppressChangeNotifications()
+        {
+            return reactiveHelper.SuppressChangeNotifications();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            if (close)
+                chat.Dispose();
+
+            base.OnDeactivate(close);
+        }
+
+        public event System.ComponentModel.PropertyChangingEventHandler PropertyChanging;
     }
 }

@@ -13,6 +13,7 @@ namespace Omerta
     using BookSleeve;
     using System.Dynamic;
     using System.Threading.Tasks;
+    using Autofac.Features.OwnedInstances;
 
     public class AppBootstrapper : AutofacBootstrapper<ShellViewModel>
     {
@@ -52,7 +53,7 @@ namespace Omerta
                  });
 
             builder
-                .Register<IOmertaConnection>((context, parameters) =>
+                .Register<IOmertaChatConnection>((context, parameters) =>
                  {
                     var connection = context.Resolve<RedisConnection>(parameters);
 
@@ -84,14 +85,15 @@ namespace Omerta
                 .Register<OmertaChat>((context, parameters) =>
                  {
                      return new OmertaChat(
-                         context.Resolve<IOmertaConnection>(parameters));
+                         context.Resolve<IOmertaChatConnection>(parameters));
                  })
                 .As<IChat>();
 
             builder
                 .Register<ChatViewModel>((context, parameters) => 
                     {
-                        return new ChatViewModel(parameters.Named<string>("channelName"), context.Resolve<IChat>(parameters));
+                        var ownedChat = context.Resolve<IChat>(parameters);
+                        return new ChatViewModel(parameters.Named<string>("channelName"), ownedChat);
                     });
 
             builder

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Omerta.Models
 {
-    public interface IChat
+    public interface IChat : IDisposable
     {
         Task Open();
         Task SendMessage(string channelName, string message);
